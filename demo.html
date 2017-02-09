@@ -1,0 +1,142 @@
+<!DOCTYPE HTML>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<title>Capstone Demo Page</title>
+		<script type="text/javascript" src="https://halflife.rutgers.edu/includes/js/jquery-1.9.1.min.js"></script>
+		<script type="text/javascript" src="https://halflife.rutgers.edu/includes/js/jquery-ui.min-1.11.4.js"></script>
+		<link rel="stylesheet" href="https://halflife.rutgers.edu/includes/css/blitzer/jquery-ui.min.css" type="text/css">
+		<script type="text/javascript" src="https://halflife.rutgers.edu/includes/js/hermes.js?v=1.29"></script>
+		<link rel="stylesheet" href="https://halflife.rutgers.edu/includes/css/hermes.css?v=1.29" type="text/css">
+ 	</head>
+	<body>
+		<table align="center" class="primary" style="margin-top:20px">
+			<tr>
+				<th colspan="2">This is a question with radio buttons (only one response can be selected)</th>
+			</tr>
+			<tr>
+				<td align="right" style="width:20px"><input type="radio" name="answer1"></td>
+				<td>Response #1</td>
+			</tr>
+			<tr>
+				<td align="right" style="width:20px"><input type="radio" name="answer1"></td>
+				<td>Response #2</td>
+			</tr>
+			<tr>
+				<td align="right" style="width:20px"><input type="radio" name="answer1"></td>
+				<td>Response #3</td>
+			</tr>
+		</table>
+		<table align="center" class="primary" style="margin-top:20px">
+			<tr>
+				<th colspan="2">This is a question with checkboxes (multiple responses can be selected)</th>
+			</tr>
+			<tr>
+				<td align="right" style="width:20px"><input type="checkbox"></td>
+				<td>Response #1</td>
+			</tr>
+			<tr>
+				<td align="right" style="width:20px"><input type="checkbox"></td>
+				<td>Response #2</td>
+			</tr>
+			<tr>
+				<td align="right" style="width:20px"><input type="checkbox"></td>
+				<td>Response #3</td>
+			</tr>
+		</table>
+		<table align="center" class="primary" style="margin-top:20px">
+			<tr>
+				<th colspan="2">This is a question with a dropdown response</th>
+			</tr>
+			<tr>
+				<td align="right" style="width:20px">&nbsp;</td>
+				<td>
+					<select name="xyz">
+						<option value="1">Response #1</option>
+						<option value="2">Response #2</option>
+						<option value="3">Response #3</option>
+					</select>
+				</td>
+			</tr>
+		</table>
+
+		<table align="center" class="primary" style="margin-top:20px">
+			<tr>
+				<th colspan="2">This is a question with a Short answer response</th>
+			</tr>
+			<tr>
+				<td align="right" style="width:20px">&nbsp;</td>
+				<td><input type="text" size="70" id="qwert"></td>
+			</tr>
+		</table>
+
+		<table align="center" class="primary" style="margin-top:20px">
+			<tr>
+				<th colspan="2">This is a question with a long answer response</th>
+			</tr>
+			<tr>
+				<td align="right" style="width:20px">&nbsp;</td>
+				<td><textarea rows="4" cols="53"></textarea></td>
+			</tr>
+		</table>
+
+		<table align="center" class="primary" style="margin-top:20px">
+			<tr>
+				<th colspan="2">This is a question with mutiple Short answer responses</th>
+			</tr>
+			<tr>
+				<td align="right" style="width:20px">1</td>
+				<td><input type="text" size="70" id="qwert1"></td>
+			</tr>
+			<tr>
+				<td align="right" style="width:20px">2</td>
+				<td><input type="text" size="70" id="qwert2"></td>
+			</tr>
+			<tr>
+				<td align="right" style="width:20px">3</td>
+				<td><input type="text" size="70" id="qwert3"></td>
+			</tr>
+			<tr>
+				<td align="right" style="width:20px">4</td>
+				<td><input type="text" size="70" id="qwert4"></td>
+			</tr>
+		</table>
+
+		<table align="center" class="primary" style="margin-top:20px">
+			<tr>
+				<th colspan="4">This is a a grouping of questions which contain the same single-selection choices</th>
+			</tr>
+			<tr>
+				<td align="center" class="sub_header" style="width:400px">Question</td>
+				<td class="sub_header" style="width:40px;text-align:center">Yes</td>
+				<td class="sub_header" style="width:40px;text-align:center">No</td>
+				<td class="sub_header" style="width:40px;text-align:center">N/A</td>
+			</tr>
+			<tr>
+				<td align="left">Question #1</td>
+				<td align="center"><input type="radio" name="q1"></td>
+				<td align="center"><input type="radio" name="q1"></td>
+				<td align="center"><input type="radio" name="q1"></td>
+			</tr>
+			<tr>
+				<td align="left">Question #2</td>
+				<td align="center"><input type="radio" name="q2"></td>
+				<td align="center"><input type="radio" name="q2"></td>
+				<td align="center"><input type="radio" name="q2"></td>
+			</tr>
+			<tr>
+				<td align="left">Question #3</td>
+				<td align="center"><input type="radio" name="q3"></td>
+				<td align="center"><input type="radio" name="q3"></td>
+				<td align="center"><input type="radio" name="q3"></td>
+			</tr>
+			<tr>
+				<td align="left">Question #4</td>
+				<td align="center"><input type="radio" name="q4"></td>
+				<td align="center"><input type="radio" name="q4"></td>
+				<td align="center"><input type="radio" name="q4"></td>
+			</tr>
+		</table>
+		<br><br>
+	</body>
+</html>
