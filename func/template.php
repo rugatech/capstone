@@ -6,10 +6,14 @@ class template
 	public $action;
    public $msg='';
    public $errmsg='';
+   public $hasJSfile=false;
 
 	public function __construct(){
       $this->action=$_SERVER['PHP_SELF'].'?view=1';
       $this->db=new pdodb('capstone');
+      if(strpos($_SERVER['PHP_SELF'],'index.php')===false){
+         print_r($_COOKIE);
+      }
 	}
 
 	public function header(){ ?>
@@ -20,11 +24,17 @@ class template
          <script src="js/jquery.min.js"></script>
          <script src="js/bootstrap.min.js"></script>
          <script src="js/jquery-ui.min.js"></script>
+         <script src="js/surveys.js"></script>
          <link rel="stylesheet" type="text/css" href="css/font-awesome.min.css">
          <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
          <link rel="stylesheet" type="text/css" href="css/bootstrap-theme.min.css">
          <link rel="stylesheet" type="text/css" href="css/font-awesome/css/font-awesome.min.css">
          <link rel="stylesheet" type="text/css" href="css/capstone.css">
+   <?php if($this->hasJSfile){
+            $x=explode('/',$_SERVER['PHP_SELF']);
+            $filename=str_replace('.php','',$x[(count($x)-1)]).'.js';
+            echo '<script src="js/'.$filename.'"></script>';
+         } ?>
       </head>
   		<body>
          <nav class="navbar navbar-custom">
@@ -56,8 +66,8 @@ class template
             if(!empty($this->msg)){
                echo '<div class="row col-md-10 col-md-offset-1">';
                echo '<div class="alert alert-success alert-dismissable"><a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>'.$this->msg.'</div>';
-            echo '</div>';
-         }
+               echo '</div>';
+            }
   }
 
 	public function footer(){ ?>
