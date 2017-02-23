@@ -18,8 +18,45 @@ class main_menu extends template
 					</div>
 				</div>
 			</div>
+			<div class="container">
+				<div class="row">
+					<div class="col-md-10 col-md-offset-1 margin-top30">
+						<div class="panel panel-primary">
+							<div class="panel-heading text-center font-size16">Surveys</div>
+    						<div class="panel-body">
+								<div class="table-responsive">
+									<table class="table table-condensed table-hover">
+    									<thead>
+	      									<tr>
+    	    									<th>Name</th>
+        										<th>Description</th>
+        										<th>Last Updated</th>
+      										</tr>
+    									</thead>
+    									<tbody>
+    								  <?php	$pstmt=$this->db->dbh->prepare('SELECT * FROM surveys WHERE updated_by=?');
+    								  		try{
+    								  			$pstmt->execute([$this->user['user']]);
+    								  			if($pstmt->rowCount()>0){
+    								  				while($rs=$pstmt->fetch(PDO::FETCH_ASSOC)){
+    								  					echo '<tr>';
+    								  					echo '<td><a href="edit_survey.php?token='.$rs['token'].'">'.$rs['survey_name'].'</a></td>';
+    								  					echo '<td>'.$rs['survey_description'].'</td>';
+    								  					echo '<td>'.$rs['updated_at'].'</td>';
+    								  					echo '</tr>';
+    								  				}
+    								  			}
+    								  		}
+    								  		catch(PDOException $e){} ?>
+									    </tbody>
+  									</table>
+  								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
 		</div>
-
 		<div id="newSurvey" class="modal fade" role="dialog">
 			<div class="modal-dialog">
 				<div class="modal-content">

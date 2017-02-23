@@ -4,6 +4,7 @@ $(document).ready(function(){
 		$jqxhr=hermesAjax('ajax.php',1,{"survey_name":$survey_name.val(),"survey_description":$survey_description.val()});
 		$jqxhr.done(function(data){
 			$("#newSurvey").modal('hide');
+			window.location="edit_survey.php?token="+data['results']+"&msg=1";
 		})
 	});
 })

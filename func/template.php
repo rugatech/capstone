@@ -7,16 +7,34 @@ class template
    public $msg='';
    public $errmsg='';
    public $hasJSfile=false;
+   public $user;
 
 	public function __construct(){
       $this->action=$_SERVER['PHP_SELF'].'?view=1';
       $this->db=new pdodb('capstone');
       if(strpos($_SERVER['PHP_SELF'],'index.php')===false){
-         print_r($_COOKIE);
+         $pstmt=$this->db->dbh->prepare('SELECT * FROM sessions WHERE sessid=? LIMIT 1');
+         try{
+            $pstmt->execute([$_COOKIE['PHPSESSID']]);
+            if($pstmt->rowCount()>0){
+               $this->user=$pstmt->fetch(PDO::FETCH_ASSOC);
+            }
+            else{
+               Header('Location: index.php?msg=1');
+               exit;
+            }
+         }
+         catch(PDOException $e){
+            die('<h2>Internal Error</h2>');
+         }
       }
 	}
+  
+   public function generateRandomString($length = 10) {
+       return substr(str_shuffle(str_repeat($x='0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ', ceil($length/strlen($x)) )),1,$length);
+   }
 
-	public function header(){ ?>
+   public function header(){ ?>
 		<!DOCTYPE html>
   		<head>
          <meta charset="utf-8">
