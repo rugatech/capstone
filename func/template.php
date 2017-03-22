@@ -75,7 +75,6 @@ class template
          <?php } ?>
             </div><!-- /.container-fluid -->
          </nav>
-         <form name="form1" method="POST" action="<?php echo $this->action; ?>">
       <?php if(!empty($this->errmsg)){
                echo '<div class="row col-md-10 col-md-offset-1">';
                echo '<div class="alert alert-danger alert-dismissable"><a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>'.$this->errmsg.'</div>';
@@ -89,7 +88,6 @@ class template
   }
 
 	public function footer(){ ?>
-		</form>
       <footer class="footer">
          <div class="container">
             <p class="text-muted">Place sticky footer content here.</p>
