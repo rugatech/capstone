@@ -16,6 +16,7 @@
 .margin-top50{margin-top:50px}
 .margin-top30{margin-top:30px}
 .margin-top20{margin-top:20px}
+.margin-top2{margin-top:2px}
 
 html {
   position: relative;
@@ -47,5 +48,7 @@ option {
 .panel-green{border-color:#1d9c73;}
 .panel-green > .panel-heading{background-color:#1d9c73;color:#fff}
 .add-option{text-decoration:none;cursor:pointer}
-.add-option-text{margin-top:2px;background-color:lightblue;}
+#add-option-text{background-color:lightblue;}
 .add-option-group{margin-bottom:3px}
+#edit-option-text{background-color:lightblue;}
+.list-group-item-hover{background-color:#BBB;cursor:pointer}
