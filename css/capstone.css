@@ -43,7 +43,7 @@ option[value=""][disabled] {
 option {
   color: black;
 }
-.required_conditionB, .visible_conditionB{display:none}
+/* .required_conditionB, .visible_conditionB{display:none} */
 .empty-list{font-weight:normal;font-style:italic;color:#999}
 .panel-green{border-color:#1d9c73;}
 .panel-green > .panel-heading{background-color:#1d9c73;color:#fff}
@@ -52,3 +52,7 @@ option {
 .add-option-group{margin-bottom:3px}
 #edit-option-text{background-color:lightblue;}
 .list-group-item-hover{background-color:#BBB;cursor:pointer}
+.panel-heading-right {float:right}
+.panel-heading-right a{cursor:pointer;color:#FFF;text-decoration:none;}
+.panel-heading-right a:nth-child(1) {margin-right:20px;}
+.panel-heading-right a:hover{color:#555;}

@@ -2,7 +2,7 @@ $(document).ready(function(){
    var $is_required=$(".is_required"), $qrequired=$(".qrequired"), $is_visible=$(".is_visible"), $qvisible=$(".qvisible");
    var $qtype=$(".qtype"), $addOptionModal=$("#addOptionModal"), $add_option_text=$("#add-option-text");
    var $editOptionModal=$("#editOptionModal"), $edit_option_text=$("#edit-option-text");
-   var $confirmDeleteOptionModal=$("#confirmDeleteOptionModal");
+   var $confirmDeleteOptionModal=$("#confirmDeleteOptionModal"), $addQuestionModal=$("#addQuestionModal");
 
    $is_required.on("change",function(){
       let $panel=$(this).closest('div.panel-body');
@@ -58,10 +58,10 @@ $(document).ready(function(){
          case 'radio':
          case 'checkbox':
          case 'dropdown':
-            $(".visible_options",$panel).show();
+            $(".visible_options").show();
          break;
          default:
-            $(".visible_options",$panel).hide();
+            $(".visible_options").hide();
          break;
       }
    });
@@ -121,5 +121,9 @@ $(document).ready(function(){
       $list_item.remove();
       $editOptionModal.modal('hide');
       $confirmDeleteOptionModal.modal('hide');
+   });
+
+   $("#add_question").click(function(){
+      $addQuestionModal.modal('show');
    });
 })
