@@ -56,3 +56,5 @@ option {
 .panel-heading-right a{cursor:pointer;color:#FFF;text-decoration:none;}
 .panel-heading-right a:nth-child(1) {margin-right:20px;}
 .panel-heading-right a:hover{color:#555;}
+.required_conditionB{display:none;}
+.visible_conditionB{display:none;}
