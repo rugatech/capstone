@@ -95,6 +95,13 @@ jQuery.cookie = function(name, value, options) {
     }
 };
 
+String.prototype.htmlEncode = function() {
+    return this.replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/\n/g,"<br>");
+}
+String.prototype.htmlDecode = function() {
+    return this.replace(/&lt;/g,"<").replace(/&gt;/g,">").replace(/<br>/g,"\n");
+}
+
 function randomString(len){
 	var chars = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXTZabcdefghiklmnopqrstuvwxyz";
 	var string_length = len;
@@ -125,6 +132,30 @@ function hermesAjax(url,mode,data,beforeSend) {
 	})
 	return $jqxhr;
 };
+   
+function serializeJson($form) { 
+    let retval={};
+    $.each($("input, select, textarea",$form),function(){
+        if($(this).val()===null){retval[$(this).attr("id")]="";}
+        else{retval[$(this).attr("id")]=$(this).val();}
+    });
+    return retval;
+}
+
+function getUrlVars(){
+    var vars = [], hash
+    var href=window.location.href;
+    if(href.indexOf('#')>0){href=href.substring(0,href.indexOf('#'));}
+    var hashes = href.slice(href.indexOf('?') + 1).split('&');
+    for(var i = 0; i < hashes.length; i++){
+        hash = hashes[i].split('=');
+        vars.push(hash[0]);
+        vars[hash[0]] = hash[1];
+    }
+    return vars;
+}
+
+var urlVars=getUrlVars();
 
 $(document).ready(function(){
 	//jQuery.fn.randomstring=function(len){

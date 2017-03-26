@@ -19,7 +19,7 @@ class edit_survey extends template
 			$this->qtypes[$rs['pkey']]=$rs['qtype'];
 			$this->hasOptions[$rs['pkey']]=$rs['has_options'];
 		}
-		$pstmt=$this->db->dbh->prepare('SELECT * FROM questions WHERE survey=?');
+		$pstmt=$this->db->dbh->prepare('SELECT * FROM questions_view WHERE survey=?');
 		$pstmt->execute([$_GET['token']]);
 		$this->qid['Y']='Yes, Always';
 		$this->qid['N']='No';
@@ -68,10 +68,10 @@ class edit_survey extends template
 					<div class="row">
 						<div class="panel panel-green" data-pkey="<?php echo $val['pkey']; ?>" data-has-options="<?php echo $this->hasOptions[$val['question_type']]; ?>">
 							<div class="panel-heading">
-								Question (ID=<?php echo $val['pkey']; ?>)
+								Question (ID=<span class="question_pkey"><?php echo $val['pkey']; ?></span>)
 								<div class="panel-heading-right">
-									<a><i class="fa fa-pencil"></i> Edit</a>
-									<a><i class="fa fa-minus"></i> Delete</a>
+									<a class="edit-question"><i class="fa fa-pencil"></i> Edit</a>
+									<a class="delete-question"><i class="fa fa-minus"></i> Delete</a>
 								</div>
 							</div>
 							<div class="panel-body">
