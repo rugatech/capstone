@@ -135,58 +135,7 @@ class edit_survey extends template
 				</div>
 			</div>
 		</div>
-		<div id="addOptionModal" class="modal fade" role="dialog">
-			<div class="modal-dialog">
-				<div class="modal-content">
-					<div class="modal-header">
-						<button type="button" class="close" data-dismiss="modal">&times;</button>
-						<h4 class="modal-title">Add Option</h4>
-      				</div>
-      				<div class="modal-body">
-        				<textarea class="form-control" rows="3" id="add-option-text"></textarea>
-      				</div>
-					<div class="modal-footer">
-						<button type="button" class="btn btn-primary" id="saveAddOptionModal">Save</button>
-						<button type="button" class="btn btn-warning" data-dismiss="modal">Cancel</button>
-					</div>
-				</div>
-			</div>
-		</div>
-		<div id="editOptionModal" class="modal fade" role="dialog">
-			<div class="modal-dialog">
-				<div class="modal-content">
-					<div class="modal-header">
-						<button type="button" class="close" data-dismiss="modal">&times;</button>
-						<h4 class="modal-title">Edit Option</h4>
-      				</div>
-      				<div class="modal-body">
-        				<textarea class="form-control" rows="3" id="edit-option-text"></textarea>
-      				</div>
-					<div class="modal-footer">
-						<button type="button" class="btn btn-primary" id="saveEditOptionModal">Save</button>
-						<button type="button" class="btn btn-danger" id="deleteEditOptionModal">Delete</button>
-						<button type="button" class="btn btn-warning" data-dismiss="modal">Cancel</button>
-					</div>
-				</div>
-			</div>
-		</div>
-		<div id="confirmDeleteOptionModal" class="modal fade" role="dialog">
-			<div class="modal-dialog">
-				<div class="modal-content">
-					<div class="modal-header">
-						<button type="button" class="close" data-dismiss="modal">&times;</button>
-						<h4 class="modal-title">Confirm Delete</h4>
-      				</div>
-      				<div class="modal-body">
-        				Are you sure you want to delete this option:<br> "<span id="deleteOptionText"></span>"?
-      				</div>
-					<div class="modal-footer">
-						<button type="button" class="btn btn-primary" id="yesDeleteModalOptionModal">Yes</button>
-						<button type="button" class="btn btn-warning" data-dismiss="modal">Cancel</button>
-					</div>
-				</div>
-			</div>
-		</div>
+
 		<div id="addQuestionModal" class="modal fade" role="dialog">
 			<div class="modal-dialog modal-lg">
 				<div class="modal-content">
@@ -211,7 +160,7 @@ class edit_survey extends template
 							<div class="form-group">
 								<label class="control-label col-sm-2" for="add_qtype">Type:</label>
 								<div class="col-sm-10">
-									<select id="add_qtype" class="form-control qtype">
+									<select id="add_qtype" class="form-control">
 										<option value=""></option>
 								  <?php	foreach($this->qtypes as $key2=>$val2){
 											echo '<option value="'.$key2.'">'.$val2.'</option>';
@@ -283,6 +232,108 @@ class edit_survey extends template
 					</div>
 					<div class="modal-footer">
 						<button type="button" class="btn btn-primary" id="saveAddQuestionModal">Save</button>
+						<button type="button" class="btn btn-warning" data-dismiss="modal">Cancel</button>
+					</div>
+				</div>
+			</div>
+		</div>
+		
+		<div id="editQuestionModal" class="modal fade" role="dialog">
+			<div class="modal-dialog modal-lg">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal">&times;</button>
+						<h4 class="modal-title">Edit Question</h4>
+      				</div>
+      				<div class="modal-body">
+						<form class="form-horizontal">
+							<div class="form-group">
+								<label class="control-label col-sm-2" for="edit_question_no">Question No:</label>
+								<div class="col-sm-10">
+									<input type="text" class="form-control" id="edit_question_no">
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="control-label col-sm-2" for="edit_question">Question:</label>
+								<div class="col-sm-10">
+									<textarea class="form-control" rows="2" id="edit_question"></textarea>
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="control-label col-sm-2" for="edit_qtype">Type:</label>
+								<div class="col-sm-10">
+									<select id="edit_qtype" class="form-control qtype">
+										<option value=""></option>
+								  <?php	foreach($this->qtypes as $key2=>$val2){
+											echo '<option value="'.$key2.'">'.$val2.'</option>';
+										} ?>
+									</select>
+								</div>
+							</div>
+							<div class="visible_options" style="display:none">
+								<div class="form-group">
+									<label class="control-label col-sm-2">Option #1:</label>
+									<div class="col-sm-10">
+										<textarea class="form-control" rows="1" id="edit_option1"></textarea>
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="control-label col-sm-2">Option #2:</label>
+									<div class="col-sm-10">
+										<textarea class="form-control" rows="1" id="edit_option2"></textarea>
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="control-label col-sm-2">Option #3:</label>
+									<div class="col-sm-10">
+										<textarea class="form-control" rows="1" id="edit_option3"></textarea>
+									</div>
+								</div>
+								<div class="form-group">
+									<label class="control-label col-sm-2">Option #4:</label>
+									<div class="col-sm-10">
+										<textarea class="form-control" rows="1" id="edit_option4"></textarea>
+									</div>
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="control-label col-sm-2" for="edit_qrequired">Required?:</label>
+								<div class="col-sm-4 required_conditionA"> 
+									<select class="form-control" id="edit_qrequired">
+									</select>
+								</div>
+								<div class="col-sm-3 required_conditionB"> 
+									<select class="form-control" id="edit_qrequired_condition">
+										<option value="" disabled selected>Condition Equality...</option>
+										<option value="eq">Equals</option>
+										<option value="neq">Not Equals</option>
+									</select>
+								</div>
+								<div class="col-sm-3 required_conditionB"> 
+									<input type="text" class="form-control" id="edit_qrequired_option" placeholder="Option ID" value="">
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="control-label col-sm-2" for="edit_qvisible">Visible?:</label>
+								<div class="col-sm-4 visible_conditionA"> 
+									<select class="form-control" id="edit_qvisible">
+									</select>
+								</div>
+								<div class="col-sm-3 visible_conditionB"> 
+									<select class="form-control" id="edit_qvisible_condition">
+										<option value="" disabled selected>Condition Equality...</option>
+										<option value="eq">Equals</option>
+										<option value="neq">Not Equals</option>
+									</select>
+								</div>
+								<div class="col-sm-3 visible_conditionB"> 
+									<input type="text" class="form-control" id="edit_qvisible_option" placeholder="Option ID" value="">
+								</div>
+							</div>
+						</form>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-primary" id="saveEditQuestionModal">Save</button>
 						<button type="button" class="btn btn-warning" data-dismiss="modal">Cancel</button>
 					</div>
 				</div>

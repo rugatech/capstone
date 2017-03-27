@@ -59,7 +59,11 @@ switch($_POST['mode']){
 				$pstmt2->execute([$_POST['survey']]);
 				$stmt = $ajax->db->dbh->query("SELECT LAST_INSERT_ID()");
 				$lastId = $stmt->fetchColumn();
-				$retval['results']=['text'=>'New Question Saved','pkey'=>$lastId];
+				
+				$pstmt3=$ajax->db->dbh->prepare('SELECT has_options FROM question_types WHERE pkey=?');
+				$pstmt3->execute([$_POST['add_qtype']]);
+				$has_options=$pstmt3->fetch(PDO::FETCH_ASSOC);
+				$retval['results']=['text'=>'New Question Saved','pkey'=>$lastId,'has-options'=>$has_options['has_options']];
 			}
 		}
 		catch(PDOException $e){
@@ -87,7 +91,23 @@ switch($_POST['mode']){
 			$retval['errmsg']=$e->getMessage();
 		}
 	break;
+	case 4: //Fetch Question
+		$pstmt=$ajax->db->dbh->prepare('SELECT * FROM fetch_question_view WHERE updated_by=? AND pkey=?');
+		try{
+			$pstmt->execute([$ajax->user['user'],$_POST['pkey']]);
+			if($pstmt->rowCount()<1){
+				$retval['errmsg']='Access Denied';
+			}
+			else{
+				$rs=$pstmt->fetch(PDO::FETCH_ASSOC);
+				$retval['results']=$rs;
+			}
+		}
+		catch(PDOException $e){
+			$retval['errmsg']=$e->getMessage();
+		}
+	break;
 }
 
-
-echo str_replace(':null','',json_encode($retval)); ?>
+echo json_encode($retval);
+//echo str_replace(':null','',json_encode($retval)); ?>

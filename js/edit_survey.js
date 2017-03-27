@@ -1,15 +1,18 @@
 $(document).ready(function(){
-   var $is_required=$(".is_required"), $qrequired=$(".qrequired"), $is_visible=$(".is_visible"), $qvisible=$(".qvisible");
-   var $qtype=$(".qtype"), $addOptionModal=$("#addOptionModal"), $add_option_text=$("#add-option-text");
-   var $editOptionModal=$("#editOptionModal"), $edit_option_text=$("#edit-option-text");
-   var $confirmDeleteOptionModal=$("#confirmDeleteOptionModal"), $addQuestionModal=$("#addQuestionModal");
-   var $add_qrequired=$("#add_qrequired"), $add_qvisible=$("#add_qvisible"), $add_question_no=$("#add_question_no", $addQuestionModal);
-   var $add_question=$("#add_question", $addQuestionModal), $add_qtype=$("#add_qtype",$addQuestionModal);
-   var $add_option1=$("#add_option1",$addQuestionModal), $add_option2=$("#add_option2",$addQuestionModal);
+   var $addQuestionModal=$("#addQuestionModal"), $add_qrequired=$("#add_qrequired"), $add_qvisible=$("#add_qvisible");
+   var $add_question_no=$("#add_question_no", $addQuestionModal), $add_question=$("#add_question", $addQuestionModal);
+   var $add_qtype=$("#add_qtype",$addQuestionModal), $add_option1=$("#add_option1",$addQuestionModal), $add_option2=$("#add_option2",$addQuestionModal);
    var $add_option3=$("#add_option3",$addQuestionModal), $add_option4=$("#add_option4",$addQuestionModal);
    var $add_qrequired_condition=$("#add_qrequired_condition",$addQuestionModal), $add_qvisible_condition=$("#add_qvisible_condition",$addQuestionModal);
    var $add_qrequired_option=$("#add_qrequired_option",$addQuestionModal), $add_qvisible_option=$("#add_qvisible_option",$addQuestionModal);
    
+   var $editQuestionModal=$("#editQuestionModal"), $edit_qrequired=$("#edit_qrequired"), $edit_qvisible=$("#edit_qvisible");
+   var $edit_question_no=$("#edit_question_no", $editQuestionModal), $edit_question=$("#edit_question", $editQuestionModal);
+   var $edit_qtype=$("#edit_qtype",$editQuestionModal), $edit_option1=$("#edit_option1",$editQuestionModal), $edit_option2=$("#edit_option2",$editQuestionModal);
+   var $edit_option3=$("#edit_option3",$editQuestionModal), $edit_option4=$("#edit_option4",$editQuestionModal);
+   var $edit_qrequired_condition=$("#edit_qrequired_condition",$editQuestionModal), $edit_qvisible_condition=$("#edit_qvisible_condition",$editQuestionModal);
+   var $edit_qrequired_option=$("#edit_qrequired_option",$editQuestionModal), $edit_qvisible_option=$("#edit_qvisible_option",$editQuestionModal);
+
    $add_qrequired.change(function(){
       switch($(this).val()){
          case 'Y':
@@ -18,6 +21,17 @@ $(document).ready(function(){
          break;
          default:
             $(".required_conditionB",$addQuestionModal).show();
+         break;
+      }
+   });
+   $edit_qrequired.change(function(){
+      switch($(this).val()){
+         case 'Y':
+         case 'N':
+            $(".required_conditionB",$editQuestionModal).hide();
+         break;
+         default:
+            $(".required_conditionB",$editQuestionModal).show();
          break;
       }
    });
@@ -33,9 +47,19 @@ $(document).ready(function(){
          break;
       }
    });
-   
-   $qtype.on("change",function(){
-      let $panel=$(this).closest('div.panel-body');
+   $edit_qvisible.change(function(){
+      switch($(this).val()){
+         case 'Y':
+         case 'N':
+            $(".visible_conditionB",$editQuestionModal).hide();
+         break;
+         default:
+            $(".visible_conditionB",$editQuestionModal).show();
+         break;
+      }
+   });
+
+   $add_qtype.on("change",function(){
       switch($(this).val()){
          case 'radio':
          case 'checkbox':
@@ -47,6 +71,19 @@ $(document).ready(function(){
          break;
       }
    });
+   $edit_qtype.on("change",function(){
+      switch($(this).val()){
+         case 'radio':
+         case 'checkbox':
+         case 'dropdown':
+            $(".visible_options").show();
+         break;
+         default:
+            $(".visible_options").hide();
+         break;
+      }
+   });
+
 
    $("#add_question").click(function(){
       $("input,select,textarea", $addQuestionModal).val("");
@@ -67,6 +104,7 @@ $(document).ready(function(){
       if($add_question_no.val()===null||$add_question_no.val()==""){errmsg="You must provide the \"Question No\"\r\n";}
       if($add_question.val()===null||$add_question.val()==""){errmsg+="You must provide the \"Question\"\r\n";}
       if($add_qtype.val()===null||$add_qtype.val()==""){errmsg+="You must provide the \"Type\"\r\n";}
+      $(".visible_options", $qDiv).hide();
       $(".question-number-p", $qDiv).html($add_question_no.val());
       $(".question-p", $qDiv).html($add_question.val().htmlEncode());
       $(".question-type-p", $qDiv).html($("option:selected",$add_qtype).text());
@@ -121,7 +159,6 @@ $(document).ready(function(){
             if(data['errmsg']==""){
                $("div.panel",$qDiv).attr("data-pkey",data['results']['pkey']);
                $("div.panel",$qDiv).attr("data-has-options",data['results']['has-options']);
-               console.log(data['results']['pkey']);
                $("span.question_pkey",$qDiv).html(data['results']['pkey']);
                $("#questionsDiv").prepend($qDiv);
                $addQuestionModal.modal('hide');
@@ -148,5 +185,46 @@ $(document).ready(function(){
             }
          });
       }
+   });
+
+   $("#questionsDiv").on("click","a.edit-question",function(){
+      var pkey=$(this).closest('div.panel').data("pkey");
+      $("input,select,textarea", $editQuestionModal).val("");
+      let $options='<option value="Y">Yes</option><option value="N">No</option>';
+      $.each($("#questionsDiv div.panel"),function(){
+         if($(this).data("has-options")=='Y'){
+            $options+='<option value="q'+$(this).data("pkey")+'">Yes, If Question (ID='+$(this).data("pkey")+')</option>';
+         }
+      });
+      $edit_qrequired.html($options);
+      $edit_qvisible.html($options);
+      $(".required_conditionB, .visible_conditionB",$editQuestionModal).hide();
+      $jqxhr=hermesAjax('ajax.php',4,{"pkey":pkey});
+      $jqxhr.done(function(data){
+         console.log(data['results']);
+         $edit_question_no.val(data['results']['question_number']);
+         $edit_question.val(data['results']['question']);
+         $edit_qtype.val(data['results']['question_type']);
+         $edit_qtype.trigger('change');
+         if(data['results']['options']!==null){
+            let $o=$.parseJSON(data['results']['options']);
+            $edit_option1.val($o['1']);
+            $edit_option2.val($o['2']);
+            $edit_option3.val($o['3']);
+            $edit_option4.val($o['4']);
+
+         }
+         //if(data['errmsg']==""){
+         //   $row.remove();
+         //   alert(data['results']);
+         //}
+         //else{
+         //   alert(data['errmsg']);
+         //}
+      });
+      $jqxhr.fail(function(jqXHR, e ){
+         console.log(e);
+      });
+      $editQuestionModal.modal('show');
    });
 })
