@@ -43,11 +43,11 @@ class edit_survey extends template
 					<div class="panel panel-primary">
 						<div class="panel-heading">Survey</div>
 						<div class="panel-body">
-							<form class="form-horizontal">
+							<form class="form-horizontal" id="survey-data">
 								<div class="form-group">
 									<label class="control-label col-sm-2">Name:</label>
 									<div class="col-sm-10">
-										<input type="text" class="form-control" value="<?php echo $this->survey['survey_name']; ?>">
+										<input type="text" class="form-control" id="survey_name" value="<?php echo $this->survey['survey_name']; ?>">
 									</div>
 								</div>
 								<div class="form-group">
@@ -56,6 +56,7 @@ class edit_survey extends template
 										<textarea class="form-control" rows="3" id="survey_description"><?php echo $this->survey['survey_description']; ?></textarea>
 									</div>
 								</div>
+								<div class="text-center"><button type="button" class="btn btn-primary" id="saveSurvey"><i class="fa fa-save fa-lg"></i> Save</button></div>
 							</form>
 						</div>
 					</div>

@@ -170,6 +170,76 @@ $(document).ready(function(){
       else{alert(errmsg);}
    });
 
+   $("#saveEditQuestionModal").click(function(){
+      var $qDiv=$editQuestionModal.data("panel"), errmsg="", valid_option_count=false;
+      if($edit_question_no.val()===null||$edit_question_no.val()==""){errmsg="You must provide the \"Question No\"\r\n";}
+      if($edit_question.val()===null||$edit_question.val()==""){errmsg+="You must provide the \"Question\"\r\n";}
+      if($edit_qtype.val()===null||$edit_qtype.val()==""){errmsg+="You must provide the \"Type\"\r\n";}
+      $(".visible_options", $qDiv).hide();
+      $(".question-number-p", $qDiv).html($edit_question_no.val());
+      $(".question-p", $qDiv).html($edit_question.val().htmlEncode());
+      $(".question-type-p", $qDiv).html($("option:selected",$edit_qtype).text());
+      switch($edit_qtype.val()){
+         case 'radio':
+         case 'checkbox':
+         case 'dropdown':
+            $(".form-horizontal .form-group:eq(3)", $qDiv).css("display","block");
+            let $ul_group=$("ul.list-group", $qDiv);
+            $ul_group.html("");
+            if($edit_option1.val()!=""){$ul_group.append('<li class="list-group-item">'+$edit_option1.val().htmlEncode()+'</li>');valid_option_count=true;}
+            if($edit_option2.val()!=""){$ul_group.append('<li class="list-group-item">'+$edit_option2.val().htmlEncode()+'</li>');valid_option_count=true;}
+            if($edit_option3.val()!=""){$ul_group.append('<li class="list-group-item">'+$edit_option3.val().htmlEncode()+'</li>');valid_option_count=true;}
+            if($edit_option4.val()!=""){$ul_group.append('<li class="list-group-item">'+$edit_option4.val().htmlEncode()+'</li>');valid_option_count=true;}
+         break;
+         default:
+            $(".form-horizontal .form-group:eq(3)", $qDiv).css("display","none");
+            valid_option_count=true;
+         break;
+      }
+      if(!valid_option_count){errmsg+="You must provide at least one \"Option\"\r\n";}
+      let req=$("option:selected",$edit_qrequired).text();
+      if(req!='Yes'&&req!='No'){
+         if($edit_qrequired_condition.val()==''||$edit_qrequired_condition.val()===null){errmsg+="You must provide the \"Required => Condition Equality\"\r\n";}
+         if($edit_qrequired_option.val()==''||$edit_qrequired_option.val()===null){errmsg+="You must provide the \"Required => Option ID\"\r\n";}
+         else{
+            if(isNaN($edit_qrequired_option.val())){errmsg+="Invalid value for \"Required => Option ID\" (numbers only)\r\n";}
+         }
+      }
+      if($edit_qrequired_condition.val()!=''&&$edit_qrequired_condition.val()!==null){req+=' ['+$("option:selected",$edit_qrequired_condition).text()+']';}
+      if($edit_qrequired_option.val()!=""){req+=' [Option #'+$edit_qrequired_option.val()+']';}
+      $(".required-p", $qDiv).html(req);
+
+      let vis=$("option:selected",$edit_qvisible).text();
+      if(vis!='Yes'&&vis!='No'){
+         if($edit_qvisible_condition.val()==''||$edit_qvisible_condition.val()===null){errmsg+="You must provide the \"Visible => Condition Equality\"\r\n";}
+         if($edit_qvisible_option.val()==''||$edit_qvisible_option.val()===null){errmsg+="You must provide the \"Visible => Option ID\"\r\n";}
+         else{
+            if(isNaN($edit_qvisible_option.val())){errmsg+="Invalid value for \"Visible => Option ID\" (numbers only)\r\n";}
+         }
+      }
+      if($edit_qvisible_condition.val()!=''&&$edit_qvisible_condition.val()!==null){vis+=' ['+$("option:selected",$edit_qvisible_condition).text()+']';}
+      if($edit_qvisible_option.val()!=""){vis+=' [Option #'+$edit_qvisible_option.val()+']';}
+      $(".visible-p", $qDiv).html(vis);
+
+      if(errmsg==""){
+         let postvars={};
+         postvars=serializeJson($editQuestionModal);
+         postvars['survey']=urlVars['token'];
+         postvars['pkey']=$qDiv.attr("data-pkey");
+         $jqxhr=hermesAjax('ajax.php',5,postvars);
+         $jqxhr.done(function(data){
+            if(data['errmsg']==""){
+               $("div.panel",$qDiv).attr("data-has-options",data['results']['has-options']);
+               $editQuestionModal.modal('hide');
+               alert(data['results']['text']);
+            }
+            else{alert(data['errmsg']);}
+         });
+      }
+      else{alert(errmsg);}
+   });
+
+
    $("#questionsDiv").on("click","a.delete-question",function(){
       var b=confirm('Are you sure you want to delete this Question?');
       if(b){
@@ -188,7 +258,8 @@ $(document).ready(function(){
    });
 
    $("#questionsDiv").on("click","a.edit-question",function(){
-      var pkey=$(this).closest('div.panel').data("pkey");
+      var $panel=$(this).closest('div.panel');
+      var pkey=$panel.data("pkey");
       $("input,select,textarea", $editQuestionModal).val("");
       let $options='<option value="Y">Yes</option><option value="N">No</option>';
       $.each($("#questionsDiv div.panel"),function(){
@@ -201,7 +272,6 @@ $(document).ready(function(){
       $(".required_conditionB, .visible_conditionB",$editQuestionModal).hide();
       $jqxhr=hermesAjax('ajax.php',4,{"pkey":pkey});
       $jqxhr.done(function(data){
-         console.log(data['results']);
          $edit_question_no.val(data['results']['question_number']);
          $edit_question.val(data['results']['question']);
          $edit_qtype.val(data['results']['question_type']);
@@ -212,19 +282,23 @@ $(document).ready(function(){
             $edit_option2.val($o['2']);
             $edit_option3.val($o['3']);
             $edit_option4.val($o['4']);
-
          }
-         //if(data['errmsg']==""){
-         //   $row.remove();
-         //   alert(data['results']);
-         //}
-         //else{
-         //   alert(data['errmsg']);
-         //}
       });
-      $jqxhr.fail(function(jqXHR, e ){
+      $jqxhr.fail(function(jqXHR, e){
          console.log(e);
       });
-      $editQuestionModal.modal('show');
+      $editQuestionModal.data({"panel":$panel}).modal('show');
+   });
+
+   $("#saveSurvey").click(function(){
+      postvars=serializeJson($("#survey-data"));
+      postvars['survey']=urlVars['token'];
+      $jqxhr=hermesAjax('ajax.php',6,postvars);
+      $jqxhr.done(function(data){
+         alert(data['errmsg']+data['results']);
+      });
+      $jqxhr.fail(function(jqXHR, e){
+         console.log(e);
+      });
    });
 })
