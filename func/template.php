@@ -12,7 +12,7 @@ class template
 	public function __construct(){
       $this->action=$_SERVER['PHP_SELF'].'?view=1';
       $this->db=new pdodb('capstone');
-      if(strpos($_SERVER['PHP_SELF'],'index.php')===false){
+      if(strpos($_SERVER['PHP_SELF'],'index.php')===false&&strpos($_SERVER['PHP_SELF'],'survey.php')===false){
          $pstmt=$this->db->dbh->prepare('SELECT * FROM sessions WHERE sessid=? LIMIT 1');
          try{
             $pstmt->execute([$_COOKIE['PHPSESSID']]);
@@ -29,7 +29,7 @@ class template
          }
       }
 	}
-  
+
    public function generateRandomString($length = 10) {
        return substr(str_shuffle(str_repeat($x='0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ', ceil($length/strlen($x)) )),1,$length);
    }
@@ -66,7 +66,7 @@ class template
                   </button>
                   <a class="navbar-brand">Capstone Surveys</a>
                </div>
-         <?php if(strpos($_SERVER['PHP_SELF'],'index.php')===false){ ?>
+         <?php if(strpos($_SERVER['PHP_SELF'],'index.php')===false&&strpos($_SERVER['PHP_SELF'],'/survey.php')===false){ ?>
                   <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                      <ul class="nav navbar-nav">
                         <li><a href="main_menu.php">Main Menu</a></li>

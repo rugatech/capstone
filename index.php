@@ -17,7 +17,7 @@ class index extends template
 						<div class="panel panel-primary">
 							<div class="panel-heading text-center size1">Login</div>
     						<div class="panel-body">
-    							<form class="form-horizontal" role="form">
+    							<form class="form-horizontal" role="form" method="POST" action="<?php echo $this->action; ?>">
  									<div class="col-sm-12 col-md-10 col-md-offset-1">
  	      								<div class="form-group input-group">
   											<span class="input-group-addon"><i class="fa fa-user fa-fw fa-lg"></i></span>
@@ -28,7 +28,7 @@ class index extends template
   											<input class="form-control input-md" type="password" placeholder="Password" id="password" name="password">
 										</div>
 									</div>
-          							<div class="form-group text-center"><input type="submit" class="btn btn-primary size1" value="Submit"></div>
+          							<div class="text-center"><input type="submit" class="btn btn-primary size1" value="Submit"></div>
 	   							</form>
 							</div>
 						</div>

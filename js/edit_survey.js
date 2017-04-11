@@ -283,7 +283,25 @@ $(document).ready(function(){
             $edit_option3.val($o['3']);
             $edit_option4.val($o['4']);
          }
+
+         let req=$.parseJSON(data['results']['required']);
+         $edit_qrequired.val(req[0]);
+         $edit_qrequired.trigger('change');
+         if(req[0]!='Y'&&req[0]!='N'){
+         	console.log(req[1]);
+         	$edit_qrequired_condition.val(req[1]);
+         	$edit_qrequired_option.val(req[2]);
+         }
+         
+         let vis=$.parseJSON(data['results']['visible']);
+         $edit_qvisible.val(vis[0]);
+         $edit_qvisible.trigger('change');
+         if(vis[0]!='Y'&&vis[0]!='N'){
+         	$edit_qvisible_condition.val(vis[1]);
+         	$edit_qvisible_option.val(vis[2]);
+         }
       });
+      
       $jqxhr.fail(function(jqXHR, e){
          console.log(e);
       });

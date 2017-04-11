@@ -21,7 +21,7 @@ class edit_survey extends template
 		}
 		$pstmt=$this->db->dbh->prepare('SELECT * FROM questions_view WHERE survey=?');
 		$pstmt->execute([$_GET['token']]);
-		$this->qid['Y']='Yes, Always';
+		$this->qid['Y']='Yes';
 		$this->qid['N']='No';
 		while($rs=$pstmt->fetch(PDO::FETCH_ASSOC)){
 			$this->questions[]=$rs;
