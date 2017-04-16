@@ -264,7 +264,9 @@ $(document).ready(function(){
       let $options='<option value="Y">Yes</option><option value="N">No</option>';
       $.each($("#questionsDiv div.panel"),function(){
          if($(this).data("has-options")=='Y'){
-            $options+='<option value="q'+$(this).data("pkey")+'">Yes, If Question (ID='+$(this).data("pkey")+')</option>';
+            if(pkey!=$(this).data("pkey")){
+               $options+='<option value="q'+$(this).data("pkey")+'">Yes, If Question (ID='+$(this).data("pkey")+')</option>';
+            }
          }
       });
       $edit_qrequired.html($options);

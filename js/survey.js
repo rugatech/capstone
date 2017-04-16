@@ -1,5 +1,6 @@
 $(document).ready(function(){
 	var is_visible={}, is_required={}, option_triggers={'required':{},'visible':{}};
+	var $questionsDiv=$("#questionsDiv");
 	
 	function update_visible(ctrl, option_value){
 		$.each(option_triggers['visible'][ctrl],function(key,val){
@@ -29,11 +30,16 @@ $(document).ready(function(){
 		}
 	});
 
-	$("input:radio, input:checkbox").click(function(){
+	$("input:radio").click(function(){
 		update_visible($(this).closest("div.panel").data("pkey"),$(this).val());
 	});
 
 	$("select").change(function(){
 		update_visible($(this).closest("div.panel").data("pkey"),$(this).val());
+	});
+
+	$("#saveSurvey").click(function(){
+		//console.log($("input:radio,input:checkbox,input:text,textarea,select",$questionsDiv).serialize());
+		$("#form1").submit();
 	});
 })

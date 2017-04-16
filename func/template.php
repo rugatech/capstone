@@ -5,7 +5,7 @@ class template
    public $db;
 	public $action;
    public $msg='';
-   public $errmsg='';
+   public $errmsg=[];
    public $hasJSfile=false;
    public $user;
 
@@ -76,9 +76,11 @@ class template
             </div><!-- /.container-fluid -->
          </nav>
       <?php if(!empty($this->errmsg)){
-               echo '<div class="row col-md-10 col-md-offset-1">';
-               echo '<div class="alert alert-danger alert-dismissable"><a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>'.$this->errmsg.'</div>';
-               echo '</div>';
+               foreach($this->errmsg as $key=>$val){
+                  echo '<div class="row col-md-10 col-md-offset-1">';
+                  echo '<div class="alert alert-danger alert-dismissable"><a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>'.$val.'</div>';
+                  echo '</div>';
+               }
             }
             if(!empty($this->msg)){
                echo '<div class="row col-md-10 col-md-offset-1">';
