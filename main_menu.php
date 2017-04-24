@@ -44,7 +44,7 @@ class main_menu extends template
     								  					echo '<tr>';
     								  					echo '<td><a href="edit_survey.php?token='.$rs['token'].'">'.$rs['survey_name'].'</a></td>';
     								  					echo '<td>'.$rs['survey_description'].'</td>';
-    								  					echo '<td><a href="survey.php?id='.$rs['token'].'">View Survey</a></td>';
+    								  					echo '<td><a href="survey.php?id='.$rs['token'].'" target="_blank">View Survey</a></td>';
     								  					echo '<td><a href="submissions.php?token='.$rs['token'].'">Completed Surveys</a></td>';
     								  					echo '<td>'.$rs['updated_at'].'</td>';
     								  					echo '</tr>';
