@@ -42,15 +42,16 @@ class index extends template
 
 $nick=new index();
 if($_GET['view']==1){
-	if(empty($_POST['email'])){$nick->errmsg='You must provide the E-Mail address<br>';}
-	if(empty($_POST['password'])){$nick->errmsg.='You must provide the Password';}
-	if($nick->errmsg==''){
+	if(empty($_POST['email'])){$nick->errmsg[]='You must provide the E-Mail address<br>';}
+	if(empty($_POST['password'])){$nick->errmsg[]='You must provide the Password';}
+	if(empty($nick->errmsg)){
 		$chk=$nick->db->dbh->prepare('SELECT * FROM users WHERE email=? LIMIT 1');
 		$bv=[$_POST['email']];
 		try{
 			$chk->execute($bv);
 			if($chk->rowCount()>0){
 				$user=$chk->fetch(PDO::FETCH_ASSOC);
+				print_r($user);
 				if(password_verify($_POST['password'],$user['password'])){
 					session_start();
 					$pstmt=$nick->db->dbh->prepare('INSERT INTO sessions (user,ip_address,user_agent,sessid) VALUES (?,?,?,?)');
@@ -59,12 +60,12 @@ if($_GET['view']==1){
 					exit;
 				}
 				else{
-					$nick->errmsg='Unrecognized Password';
+					$nick->errmsg[]='Unrecognized Password';
 				}
 			}
 		}
 		catch(PDOexception $e){
-			$nick->errmsg='Error, Unable to login';
+			$nick->errmsg[]='Error, Unable to login';
 		}
 	}
 }

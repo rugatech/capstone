@@ -1,5 +1,5 @@
 <?php include('func/template.php');
-
+ini_set('display_errors',1);
 class main_menu extends template
 {
 	public function __construct(){
@@ -30,6 +30,8 @@ class main_menu extends template
 	      									<tr>
     	    									<th>Name</th>
         										<th>Description</th>
+        										<th>Link to Survey</th>
+        										<th>Link to Results</th>
         										<th>Last Updated</th>
       										</tr>
     									</thead>
@@ -42,6 +44,8 @@ class main_menu extends template
     								  					echo '<tr>';
     								  					echo '<td><a href="edit_survey.php?token='.$rs['token'].'">'.$rs['survey_name'].'</a></td>';
     								  					echo '<td>'.$rs['survey_description'].'</td>';
+    								  					echo '<td><a href="survey.php?id='.$rs['token'].'">View Survey</a></td>';
+    								  					echo '<td><a href="submissions.php?token='.$rs['token'].'">Completed Surveys</a></td>';
     								  					echo '<td>'.$rs['updated_at'].'</td>';
     								  					echo '</tr>';
     								  				}
@@ -89,4 +93,41 @@ class main_menu extends template
 }
 
 $nick=new main_menu();
+if(!empty($_GET['export'])){
+	$stmt=$nick->db->dbh->prepare('SELECT * FROM export_view WHERE survey=?');
+	$stmt->execute([$_GET['export']]);
+	$header=['timestamp','survey_id'];
+	$surveys=[];
+	$data=[];
+	$i=0;
+	$first=true;
+	if($stmt->rowCount()>0){
+		while($rs=$stmt->fetch(PDO::FETCH_ASSOC)){
+			$surveys[$rs['survey']]['created_at']=$rs['created_at'];
+			$surveys[$rs['survey']]['questions'][$rs['question']]=$rs['answer'];
+		}
+		foreach($surveys as $key=>$val){
+			$data[$i][0]=$val['created_at'];
+			$data[$i][1]=$key;
+			foreach($val['questions'] as $key2=>$val2){
+				if($first){$header[]=$key2;}
+				$data[$i][]=$val2;
+			}
+			$first=false;
+			$i++;
+		}
+		header('Content-Type: text/csv; charset=utf-8');
+		header('Content-Disposition: attachment; filename=survey_export.csv');		
+		$output = fopen('php://output', 'w');
+		fputcsv($output, $header);
+		foreach($data as $key=>$val){
+			fputcsv($output, $val);
+		}
+		//print_r($surveys);
+		//print_r($header);
+		//print_r($data);
+		# Exit to close the stream off
+        exit();
+	}
+}
 $nick->showform(); ?>

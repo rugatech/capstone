@@ -93,7 +93,7 @@ class edit_survey extends template
 		  			if($val['is_missing']=='Y'){$panel_color='panel-danger';}
 		  			else{$panel_color='panel-green';}
 		  			echo '<div class="row"'.$style.' id="row-'.$val['pkey'].'">';
-					echo '<div class="panel '.$panel_color.'" data-pkey="'.$val['pkey'].'" data-required="'.$val['is_required'].'" data-visible="'.$val['is_visible'].'" data-has-options="'.$this->hasOptions[$val['question_type']].'"">'; 
+					echo '<div class="panel panel-question '.$panel_color.'" data-pkey="'.$val['pkey'].'" data-required="'.$val['is_required'].'" data-visible="'.$val['is_visible'].'" data-has-options="'.$this->hasOptions[$val['question_type']].'"">'; 
 					echo '<div class="panel-heading">';
 					echo '#'.$val['question_number'].') '.nl2br($val['question']);
 					echo '</div>';
@@ -200,7 +200,6 @@ if($_GET['view']==1){
 				}
 			break;
 		}
-		
 		if($to_check){
 			switch($val['question_type']){
 				case 'multiple_text':
@@ -224,9 +223,37 @@ if($_GET['view']==1){
 			}
 		}
 	}
+	if(empty($nick->errmsg)){
+		$pstmt=$nick->db->dbh->prepare('INSERT INTO submissions (pkey,survey) VALUES (?,?)');
+		$pstmt2=$nick->db->dbh->prepare('INSERT INTO submission_answers (submission,question,answer) VALUES (?,?,?)');
+		try{
+			$nick->db->dbh->beginTransaction();
+			$pkey=$nick->generateRandomString(16);
+			$pstmt->execute([$pkey,$_GET['id']]);
+			foreach($_POST['q'] as $key=>$val){
+				$question=$key;
+				if(is_array($val)){
+					$answer=json_encode($val);
+				}
+				else{
+					$answer=$val;
+				}
+				$pstmt2->execute([$pkey,$question,$answer]);
+			}
+			$nick->db->dbh->commit();
+			$nick->header();  ?>
+			<div class="section">
+				<div class="container">
+					<div class="row"><h2>Survey Complete, thank you for your submission</h2></div>
+				</div>
+			</div>
+	  <?php	$nick->footer();
+			exit;
+		}
+		catch(PDOException $e){
+			$nick->db->dbh->rollback();
+			$nick->errmsg[]=$e->getMessage();
+		}
+	}
 }
-echo '<pre>';
-print_r($_POST);
-print_r($nick->questions);
-echo '</pre>';
 $nick->showform(); ?>

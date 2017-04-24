@@ -18,7 +18,7 @@ $(document).ready(function(){
 		});
 	}
 
-	$(".panel-green").each(function(){
+	$(".panel-question").each(function(){
 		let $this=$(this), reg=[], vis=[];
 		let  pkey=$this.data("pkey");
 		is_required[pkey]=$this.data("required");
